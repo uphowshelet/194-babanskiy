@@ -1,0 +1,5 @@
+a = int(input())
+b = int(input())
+c = int(input())
+maxx = max(a, b, c)
+print("Наибольшее значение: ",maxx)
