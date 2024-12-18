@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>Выберите раздел:</p>
+<ul>
+    <li><a href="{{ url_for('national_names') }}">NationalNames</a></li>
+    <li><a href="{{ url_for('state_names') }}">StateNames</a></li>
+</ul>
+{% endblock %}

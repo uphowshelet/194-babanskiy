@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>NationalNames</h2>
+
+<form method="POST" action="{{ url_for('national_names') }}">
+    <label>Имя:</label>
+    <input type="text" name="name" required>
+    <label>Год:</label>
+    <input type="number" name="year" required>
+    <label>Пол:</label>
+    <input type="text" name="gender" required>
+    <label>Количество:</label>
+    <input type="number" name="count" required>
+    <button type="submit">Добавить</button>
+</form>
+
+<h3>Список NationalNames</h3>
+<ul>
+    {% for name in names %}
+    <li>
+        ID: {{ name.Id }}, Name: {{ name.Name }}, Year: {{ name.Year }}, Gender: {{ name.Gender }}, Count: {{ name.Count }}
+        <a href="{{ url_for('delete_national_name_route', id=name.Id) }}">Удалить</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<form method="POST" action="{{ url_for('search_national_names') }}">
+    <label>Поиск по имени:</label>
+    <input type="text" name="name" required>
+    <button type="submit">Поиск</button>
+</form>
+{% endblock %}
