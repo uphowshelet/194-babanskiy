@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from lab1 import setup_database, create_session, NationalNames, StateNames
-from lab1_defs import (
+from orm import setup_database, create_session, NationalNames, StateNames
+from crud import (
     add_national_name, add_state_name, delete_national_name, delete_state_name,
     search_national_names_by_name, search_state_names_by_name
 )
