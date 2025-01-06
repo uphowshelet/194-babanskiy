@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .flash-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .action-button {
+            margin: 0;
+            padding: 5px 10px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .action-button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Database Data</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('search') }}" method="GET" class="form-group">
+        <input type="text" name="query" placeholder="Введите имя для поиска" required>
+        <select name="type">
+            <option value="national">NationalNames</option>
+            <option value="state">StateNames</option>
+        </select>
+        <button type="submit">Поиск</button>
+    </form>
+
+    <h2>Добавить запись</h2>
+    <form action="{{ url_for('add') }}" method="POST" class="form-group">
+        <select name="table">
+            <option value="national">NationalNames</option>
+            <option value="state">StateNames</option>
+        </select>
+        <input type="text" name="name" placeholder="Имя" required>
+        <input type="text" name="year" placeholder="Год" required>
+        <input type="text" name="gender" placeholder="Пол " required>
+        <input type="text" name="state" placeholder="Штат (только для StateNames)">
+        <input type="text" name="count" placeholder="Количество" required>
+        <button type="submit">Добавить</button>
+    </form>
+
+    <h2>National Names</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Year</th>
+            <th>Gender</th>
+            <th>Count</th>
+            <th>Delete</th>
+        </tr>
+        {% for name in national_names %}
+        <tr>
+            <td>{{ name.Id }}</td>
+            <td>{{ name.Name }}</td>
+            <td>{{ name.Year }}</td>
+            <td>{{ name.Gender }}</td>
+            <td>{{ name.Count }}</td>
+            <td>
+                <form action="{{ url_for('delete', table='national', id=name.Id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="action-button">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>State Names</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Year</th>
+            <th>Gender</th>
+            <th>State</th>
+            <th>Count</th>
+            <th>Delete</th>
+        </tr>
+        {% for name in state_names %}
+        <tr>
+            <td>{{ name.Id }}</td>
+            <td>{{ name.Name }}</td>
+            <td>{{ name.Year }}</td>
+            <td>{{ name.Gender }}</td>
+            <td>{{ name.State }}</td>
+            <td>{{ name.Count }}</td>
+            <td>
+                <form action="{{ url_for('delete', table='state', id=name.Id) }}" method="POST">
+                    <button type="submit" class="action-button">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
